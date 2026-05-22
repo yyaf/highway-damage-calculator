@@ -1,0 +1,17 @@
+<!-- 页面标题 -->
+<view class="page-header">
+  <view class="page-title">赔偿标准</view>
+  <view class="page-subtitle">粤交路〔1998〕38号 · 粤公路函〔2020〕352号</view>
+</view>
+
+<view class="container">
+  <view class="card standard-card" wx:for="{{standards}}" wx:key="id" wx:for-item="s" data-id="{{s.id}}" bindtap="onTapStandard">
+    <view class="standard-icon">📄</view>
+    <view class="standard-info">
+      <view class="standard-name">{{s.name}}</view>
+      <view class="standard-code">{{s.docCode}}</view>
+      <view class="standard-count">{{s.categories.length}} 个分类</view>
+    </view>
+    <view class="standard-arrow">›</view>
+  </view>
+</view>

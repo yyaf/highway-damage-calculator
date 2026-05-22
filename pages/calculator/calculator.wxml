@@ -1,0 +1,125 @@
+<!-- 页面标题 -->
+<view class="page-header">
+  <view class="page-title">路产损坏赔偿计算</view>
+  <view class="page-subtitle">高速公路路产损坏赔偿金额快速计算工具</view>
+</view>
+
+<!-- 搜索栏 -->
+<view class="search-bar">
+  <view class="search-input-box" bindtap="onSearchFocus">
+    <text class="search-icon">🔍</text>
+    <input
+      class="search-input"
+      placeholder="搜索路产项目..."
+      value="{{searchKeyword}}"
+      bindinput="onSearchInput"
+      bindfocus="onSearchFocus"
+      confirm-type="search"
+      focus="{{inputFocus}}"
+    />
+    <view class="search-arrow {{showDropdown ? 'arrow-up' : ''}}" catchtap="onToggleDropdown">
+      <text>▼</text>
+    </view>
+  </view>
+</view>
+
+<!-- 搜索浮层遮罩 -->
+<view class="dropdown-mask" wx:if="{{showDropdown}}" bindtap="onDropdownClose" catchtouchmove="preventMove"></view>
+
+<!-- 搜索浮层 -->
+<view class="dropdown-panel" wx:if="{{showDropdown}}">
+  <view class="dropdown-header">
+    <text class="dropdown-count">共 {{displayCount}} 项 · 按常用排序</text>
+    <text class="dropdown-close" bindtap="onDropdownClose">收起 ▲</text>
+  </view>
+
+  <scroll-view class="dropdown-list" scroll-y wx:if="{{dropdownItems.length > 0}}">
+    <view
+      class="dropdown-item"
+      wx:for="{{dropdownItems}}"
+      wx:key="id"
+      wx:for-item="item"
+      data-id="{{item.id}}"
+      bindtap="onQuickAdd"
+    >
+      <view class="dropdown-item-info">
+        <view class="dropdown-item-name">{{item.name}}</view>
+        <view class="dropdown-item-spec" wx:if="{{item.spec}}">{{item.spec}}</view>
+        <view class="dropdown-item-price">
+          <text wx:if="{{item.price > 0}}">¥{{item.price}} / {{item.unit}}</text>
+          <text wx:else class="price-calc">按实计算</text>
+        </view>
+      </view>
+      <view class="dropdown-item-badge" wx:if="{{cart[item.id] > 0}}">{{cart[item.id]}}</view>
+      <view class="dropdown-item-add">+</view>
+    </view>
+  </scroll-view>
+
+  <view wx:else class="dropdown-empty">未找到匹配项目</view>
+</view>
+
+<!-- 主内容区 -->
+<scroll-view class="main-content" scroll-y bindtap="onCancelEdit">
+
+  <!-- 空状态 -->
+  <view class="empty-init" wx:if="{{selectedCount === 0 && !showDropdown}}">
+    <view class="empty-init-icon">📋</view>
+    <view class="empty-init-text">搜索并选择损坏路产项目</view>
+    <view class="empty-init-hint">点击上方搜索框或下拉箭头开始</view>
+  </view>
+
+  <!-- 已选项目列表 -->
+  <view class="selected-section" wx:if="{{selectedCount > 0}}">
+    <view class="section-title-bar">
+      <text>已选损坏项目（{{selectedCount}} 项）</text>
+      <text class="clear-link" bindtap="onClearAll">清空</text>
+    </view>
+
+    <view class="selected-card" wx:for="{{selectedList}}" wx:key="id" wx:for-item="d">
+      <view class="selected-info">
+        <view class="selected-name">{{d.name}}<text wx:if="{{d.spec}}" class="selected-spec">（{{d.spec}}）</text></view>
+        <view class="selected-unit-price">¥{{d.price}} / {{d.unit}}</view>
+      </view>
+      <view class="selected-qty">
+        <view class="qty-btn small" data-id="{{d.id}}" catchtap="onDecrease">−</view>
+        <view class="qty-num-box" wx:if="{{editingId !== d.id}}" data-id="{{d.id}}" catchtap="onStartEditQty">
+          <text class="qty-num-text">{{d.quantity}}</text>
+        </view>
+        <input
+          wx:else
+          class="qty-input"
+          type="number"
+          value="{{d.quantity}}"
+          data-id="{{d.id}}"
+          bindblur="onEndEditQty"
+          bindconfirm="onEndEditQty"
+          focus="{{true}}"
+          hold-keyboard="{{true}}"
+          selection-start="0"
+          selection-end="999"
+        />
+        <view class="qty-btn small" data-id="{{d.id}}" catchtap="onIncrease">+</view>
+      </view>
+      <view class="selected-subtotal">¥{{d.subtotal}}</view>
+      <view class="selected-delete" data-id="{{d.id}}" catchtap="onRemoveItem">✕</view>
+    </view>
+
+    <view style="height: 20rpx;"></view>
+  </view>
+
+</scroll-view>
+
+<!-- 底部悬浮合计栏 -->
+<view class="bottom-fixed-bar" wx:if="{{selectedCount > 0}}">
+  <view class="bottom-summary">
+    <view class="bottom-total-line">
+      <text class="bottom-total-label">合计</text>
+      <text class="bottom-total-num">¥{{total}}</text>
+    </view>
+    <view class="bottom-chinese-line">{{totalChinese}}</view>
+  </view>
+  <view class="bottom-btns">
+    <view class="btn-clear" bindtap="onClearAll">清空</view>
+    <view class="btn-copy" bindtap="onCopyReport">复制清单</view>
+  </view>
+</view>

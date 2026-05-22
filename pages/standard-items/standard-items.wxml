@@ -1,0 +1,33 @@
+<view class="page-header">
+  <view class="page-title">{{standardName}}</view>
+  <view class="page-subtitle">{{docCode}}</view>
+</view>
+
+<!-- 分类 Tab -->
+<scroll-view class="category-tabs" scroll-x enable-flex>
+  <view
+    class="category-tab {{activeCategoryId === item.id ? 'active' : ''}}"
+    wx:for="{{categories}}"
+    wx:key="id"
+    wx:for-item="item"
+    data-id="{{item.id}}"
+    bindtap="onCategoryTap"
+  >{{item.name}}</view>
+</scroll-view>
+
+<!-- 项目列表（只读） -->
+<scroll-view class="item-list" scroll-y>
+  <block wx:for="{{categories}}" wx:key="id" wx:for-item="cat">
+    <view wx:if="{{cat.id === activeCategoryId}}">
+      <view class="readonly-card" wx:for="{{cat.items}}" wx:key="name" wx:for-item="item">
+        <view class="readonly-name">{{item.name}}</view>
+        <view class="readonly-spec" wx:if="{{item.spec}}">{{item.spec}}</view>
+        <view class="readonly-price">
+          <text wx:if="{{item.price > 0}}">¥{{item.price}} / {{item.unit}}</text>
+          <text wx:else class="price-calc">按实计算</text>
+        </view>
+      </view>
+    </view>
+  </block>
+  <view style="height: 40rpx;"></view>
+</scroll-view>

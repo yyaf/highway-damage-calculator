@@ -1,0 +1,42 @@
+.container {
+  padding: 24rpx;
+}
+
+.standard-card {
+  display: flex;
+  align-items: center;
+  padding: 32rpx 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.standard-icon {
+  font-size: 48rpx;
+  margin-right: 20rpx;
+}
+
+.standard-info {
+  flex: 1;
+}
+
+.standard-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.standard-code {
+  font-size: 24rpx;
+  color: var(--primary);
+  margin-bottom: 4rpx;
+}
+
+.standard-count {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.standard-arrow {
+  font-size: 36rpx;
+  color: #ccc;
+}

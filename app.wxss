@@ -1,0 +1,47 @@
+page {
+  --primary: #1a6ecc;
+  --primary-light: #e8f2fd;
+  --text: #333;
+  --text-secondary: #999;
+  --bg: #f5f5f5;
+  --card-bg: #fff;
+  --border: #e8e8e8;
+  --danger: #e74c3c;
+  --success: #27ae60;
+
+  font-size: 28rpx;
+  color: var(--text);
+  background: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+}
+
+.container {
+  padding: 20rpx;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+}
+
+/* 共享页面标题 */
+.page-header {
+  padding: 32rpx 32rpx 24rpx;
+  background: linear-gradient(180deg, #e8f2fd 0%, #f5f5f5 100%);
+}
+
+.page-title {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: 2rpx;
+}
+
+.page-subtitle {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 6rpx;
+}

@@ -1,0 +1,41 @@
+{
+  "lazyCodeLoading": "requiredComponents",
+  "pages": [
+    "pages/calculator/calculator",
+    "pages/standards/standards",
+    "pages/standard-items/standard-items",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#1a6ecc",
+    "navigationBarTitleText": "路产赔偿计算器",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#1a6ecc",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/calculator/calculator",
+        "text": "计算",
+        "iconPath": "images/tab-calc.png",
+        "selectedIconPath": "images/tab-calc-active.png"
+      },
+      {
+        "pagePath": "pages/standards/standards",
+        "text": "标准",
+        "iconPath": "images/tab-standards.png",
+        "selectedIconPath": "images/tab-standards-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tab-profile.png",
+        "selectedIconPath": "images/tab-profile-active.png"
+      }
+    ]
+  }
+}

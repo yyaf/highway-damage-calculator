@@ -1,0 +1,46 @@
+<!-- 页面标题 -->
+<view class="page-header">
+  <view class="page-title">我的</view>
+  <view class="page-subtitle">计算历史 · 关于工具</view>
+</view>
+
+<view class="container">
+  <!-- 历史记录 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">计算历史记录</text>
+      <text class="clear-btn" wx:if="{{historyList.length > 0}}" bindtap="onClearHistory">清空全部</text>
+    </view>
+
+    <view wx:if="{{historyList.length === 0}}" class="empty-history">
+      <text>暂无计算记录</text>
+    </view>
+
+    <view class="history-item" wx:for="{{historyList}}" wx:key="id" wx:for-item="h">
+      <view class="history-info" data-id="{{h.id}}" bindtap="onViewHistory">
+        <view class="history-time">{{h.time}}</view>
+        <view class="history-summary">{{h.itemCount}} 项损坏</view>
+      </view>
+      <view class="history-total">¥{{h.total}}</view>
+      <view class="history-delete" data-id="{{h.id}}" catchtap="onDeleteHistory">✕</view>
+    </view>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="section">
+    <view class="section-title">关于</view>
+    <view class="info-card">
+      <view class="info-row">
+        <text class="info-label">版本</text>
+        <text class="info-value">{{version}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-label">作者</text>
+        <text class="info-value">{{author}}</text>
+      </view>
+    </view>
+    <view class="desc-card">
+      <view class="desc-text">高速公路路产损害赔偿金额计算工具，依据《损坏公路路产赔偿标准》（粤交路〔1998〕38号）及《广东省损坏公路路产赔偿指导标准》（粤公路函〔2020〕352号）编制，适用于广东省高速公路路政管理工作中路产损坏赔偿金额的快速计算。</view>
+    </view>
+  </view>
+</view>
