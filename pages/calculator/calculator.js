@@ -16,6 +16,7 @@ Page({
     selectedCount: 0,
     selectedList: [],
     editingId: '',       // 正在编辑数量的 itemId
+    editingValue: 0,     // 编辑中的实时数量
     inputFocus: false
   },
 
@@ -160,11 +161,18 @@ Page({
     this.setData({ editingId: itemId })
   },
 
-  // 点击空白区域取消编辑
+  // 编辑过程中实时追踪输入值
+  onEditQtyInput: function (e) {
+    this.setData({ editingValue: parseInt(e.detail.value) || 0 })
+  },
+
+  // 点击空白区域 — 保存编辑内容后退出编辑
   onCancelEdit: function () {
     if (this.data.editingId) {
-      this.setData({ editingId: '' })
+      var cart = calc.setQuantity(this.data.cart, this.data.editingId, this.data.editingValue)
+      this.setData({ cart: cart, editingId: '' })
       this.refreshSelected()
+      this.saveCart()
     }
   },
 

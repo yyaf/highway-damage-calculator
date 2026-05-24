@@ -114,3 +114,22 @@
   color: #666;
   line-height: 1.8;
 }
+
+/* 免责声明 */
+.disclaimer-card {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  border-left: 6rpx solid #ddd;
+}
+
+.disclaimer-text {
+  font-size: 24rpx;
+  color: #999;
+  line-height: 1.8;
+  margin-bottom: 12rpx;
+}
+
+.disclaimer-text:last-child {
+  margin-bottom: 0;
+}

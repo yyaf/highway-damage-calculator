@@ -91,6 +91,7 @@
           type="number"
           value="{{d.quantity}}"
           data-id="{{d.id}}"
+          bindinput="onEditQtyInput"
           bindblur="onEndEditQty"
           bindconfirm="onEndEditQty"
           focus="{{true}}"
