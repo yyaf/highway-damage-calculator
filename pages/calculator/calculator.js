@@ -17,6 +17,10 @@ Page({
     selectedList: [],
     editingId: '',       // 正在编辑数量的 itemId
     editingValue: 0,     // 编辑中的实时数量
+    editingPriceId: '',  // 正在编辑单价的 itemId
+    editingPriceValue: 0,// 编辑中的实时单价
+    customPrices: {},    // { itemId: customPrice } 自定义单价
+    sourceLabel: { '1998': '38号', '2020': '352号', 'both': '38号/352号' },
     inputFocus: false
   },
 
@@ -29,6 +33,13 @@ Page({
       if (savedCart) {
         this.setData({ cart: savedCart })
         this.refreshSelected()
+      }
+    } catch (e) {}
+
+    try {
+      var savedPrices = wx.getStorageSync('custom_prices')
+      if (savedPrices) {
+        this.setData({ customPrices: savedPrices })
       }
     } catch (e) {}
   },
@@ -174,6 +185,20 @@ Page({
       this.refreshSelected()
       this.saveCart()
     }
+    // 单价编辑中 → 保存后退出
+    if (this.data.editingPriceId) {
+      var pid = this.data.editingPriceId
+      var val = this.data.editingPriceValue || 0
+      var cp = this.data.customPrices
+      if (val > 0) {
+        cp[pid] = val
+      } else {
+        delete cp[pid]
+      }
+      this.setData({ customPrices: cp, editingPriceId: '' })
+      this.refreshSelected()
+      this.saveCustomPrices()
+    }
   },
 
   // 完成手动编辑数量
@@ -190,9 +215,10 @@ Page({
   refreshSelected: function () {
     var priceMap = this.data.priceMap
     var cart = this.data.cart
-    var total = calc.getTotal(cart, priceMap)
+    var cp = this.data.customPrices
+    var total = calc.getTotal(cart, priceMap, cp)
     var selectedCount = calc.getSelectedCount(cart)
-    var selectedList = calc.getDetail(cart, priceMap)
+    var selectedList = calc.getDetail(cart, priceMap, cp)
     var totalChinese = calc.numberToChinese(total)
 
     this.setData({
@@ -205,6 +231,10 @@ Page({
 
   saveCart: function () {
     try { wx.setStorageSync('current_cart', this.data.cart) } catch (e) {}
+  },
+
+  saveCustomPrices: function () {
+    try { wx.setStorageSync('custom_prices', this.data.customPrices) } catch (e) {}
   },
 
   // 清空全部
@@ -223,15 +253,43 @@ Page({
     })
   },
 
+  // 开始编辑自定义单价
+  onStartEditPrice: function (e) {
+    var itemId = e.currentTarget.dataset.id
+    var curVal = this.data.customPrices[itemId] || 0
+    this.setData({ editingPriceId: itemId, editingPriceValue: curVal })
+  },
+
+  // 实时追踪单价输入
+  onEditPriceInput: function (e) {
+    this.setData({ editingPriceValue: parseFloat(e.detail.value) || 0 })
+  },
+
+  // 完成单价编辑
+  onEndEditPrice: function (e) {
+    var itemId = e.currentTarget.dataset.id
+    var val = parseFloat(e.detail.value) || 0
+    var cp = this.data.customPrices
+    if (val > 0) {
+      cp[itemId] = val
+    } else {
+      delete cp[itemId]
+    }
+    this.setData({ customPrices: cp, editingPriceId: '' })
+    this.refreshSelected()
+    this.saveCustomPrices()
+  },
+
   onCopyReport: function () {
     var cart = this.data.cart
     var priceMap = this.data.priceMap
-    var report = calc.formatReport(cart, priceMap)
+    var cp = this.data.customPrices
+    var report = calc.formatReport(cart, priceMap, cp)
     if (!report) {
       wx.showToast({ title: '请先选择损坏项目', icon: 'none' })
       return
     }
-    var total = calc.getTotal(cart, priceMap)
+    var total = calc.getTotal(cart, priceMap, cp)
     wx.setClipboardData({
       data: report,
       success: function () {

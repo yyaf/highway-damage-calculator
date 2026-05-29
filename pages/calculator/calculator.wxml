@@ -43,7 +43,10 @@
       bindtap="onQuickAdd"
     >
       <view class="dropdown-item-info">
-        <view class="dropdown-item-name">{{item.name}}</view>
+        <view class="dropdown-item-name">
+          {{item.name}}
+          <text class="source-tag source-{{item.source}}">{{sourceLabel[item.source]}}</text>
+        </view>
         <view class="dropdown-item-spec" wx:if="{{item.spec}}">{{item.spec}}</view>
         <view class="dropdown-item-price">
           <text wx:if="{{item.price > 0}}">¥{{item.price}} / {{item.unit}}</text>
@@ -77,8 +80,38 @@
 
     <view class="selected-card" wx:for="{{selectedList}}" wx:key="id" wx:for-item="d">
       <view class="selected-info">
-        <view class="selected-name">{{d.name}}<text wx:if="{{d.spec}}" class="selected-spec">（{{d.spec}}）</text></view>
-        <view class="selected-unit-price">¥{{d.price}} / {{d.unit}}</view>
+        <view class="selected-name">
+          {{d.name}}<text wx:if="{{d.spec}}" class="selected-spec">（{{d.spec}}）</text>
+          <text class="source-tag source-{{d.source}}">{{sourceLabel[d.source]}}</text>
+        </view>
+        <!-- 有固定单价（不可编辑） -->
+        <view class="selected-unit-price" wx:if="{{d.price > 0 && !customPrices[d.id]}}">
+          ¥{{d.price}} / {{d.unit}}
+        </view>
+        <!-- 自定义单价：点击可修改 -->
+        <view wx:elif="{{customPrices[d.id] && editingPriceId !== d.id}}" class="selected-unit-price calc-price" data-id="{{d.id}}" catchtap="onStartEditPrice">
+          ¥{{customPrices[d.id]}} / {{d.unit}} <text class="custom-price-tag">自定义</text>
+        </view>
+        <!-- 按实计算：可点击输入自定义单价 -->
+        <view wx:elif="{{editingPriceId !== d.id}}" class="selected-unit-price calc-price" data-id="{{d.id}}" catchtap="onStartEditPrice">
+          按实计算 / {{d.unit}} <text class="edit-hint">（点击输入单价）</text>
+        </view>
+        <!-- 单价输入框 -->
+        <view wx:else class="selected-unit-price">
+          <input
+            class="price-input"
+            type="digit"
+            value="{{customPrices[d.id] || ''}}"
+            placeholder="输入单价"
+            data-id="{{d.id}}"
+            bindinput="onEditPriceInput"
+            bindblur="onEndEditPrice"
+            bindconfirm="onEndEditPrice"
+            focus="{{true}}"
+            hold-keyboard="{{true}}"
+          />
+          <text class="custom-price-tag"> / {{d.unit}}</text>
+        </view>
       </view>
       <view class="selected-qty">
         <view class="qty-btn small" data-id="{{d.id}}" catchtap="onDecrease">−</view>

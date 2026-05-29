@@ -39,36 +39,40 @@ function setQuantity(cart, itemId, n) {
   return cart
 }
 
-function getSubtotal(itemId, quantity, priceMap) {
+function getSubtotal(itemId, quantity, priceMap, customPrices) {
   var item = priceMap[itemId]
   if (!item) return 0
-  return (item.price || 0) * (quantity || 0)
+  var price = (customPrices && customPrices[itemId]) ? customPrices[itemId] : (item.price || 0)
+  return price * (quantity || 0)
 }
 
-function getTotal(cart, priceMap) {
+function getTotal(cart, priceMap, customPrices) {
   var total = 0
   for (var id in cart) {
     if (cart[id] > 0) {
-      total += getSubtotal(id, cart[id], priceMap)
+      total += getSubtotal(id, cart[id], priceMap, customPrices)
     }
   }
   return total
 }
 
-function getDetail(cart, priceMap) {
+function getDetail(cart, priceMap, customPrices) {
   var list = []
   for (var id in cart) {
     if (cart[id] > 0) {
       var item = priceMap[id]
       if (item) {
+        var effPrice = (customPrices && customPrices[id]) ? customPrices[id] : (item.price || 0)
         list.push({
           id: id,
           name: item.name,
           spec: item.spec,
           unit: item.unit,
           price: item.price,
+          source: item.source,
+          effectivePrice: effPrice,
           quantity: cart[id],
-          subtotal: (item.price || 0) * cart[id]
+          subtotal: effPrice * cart[id]
         })
       }
     }
@@ -86,13 +90,22 @@ function getSelectedCount(cart) {
   return count
 }
 
-function formatReport(cart, priceMap) {
-  var detail = getDetail(cart, priceMap)
+function sourceLabel(source) {
+  if (source === '1998') return '38号'
+  if (source === '2020') return '352号'
+  if (source === 'both') return '38号/352号'
+  return ''
+}
+
+function formatReport(cart, priceMap, customPrices) {
+  var detail = getDetail(cart, priceMap, customPrices)
   if (detail.length === 0) return ''
 
   var items = detail.map(function (d) {
-    var specStr = d.spec ? '(' + d.spec + ') ' : ''
-    return d.name + specStr + d.quantity + d.unit
+    var specStr = d.spec ? '(' + d.spec + ')' : ''
+    var srcStr = '[' + sourceLabel(d.source) + '] '
+    var customStr = (customPrices && customPrices[d.id]) ? '(单价¥' + formatMoney(customPrices[d.id]) + ')' : ''
+    return d.name + specStr + srcStr + d.quantity + d.unit + customStr
   }).join('、')
 
   var total = 0
@@ -103,8 +116,9 @@ function formatReport(cart, priceMap) {
 
 function formatMoney(num) {
   var n = parseFloat(num)
-  if (isNaN(n)) return '0.00'
-  return n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  if (isNaN(n)) return '0'
+  // 去掉末尾多余的零：1234.50 → 1234.5, 1234.00 → 1234
+  return n.toFixed(10).replace(/\.?0+$/, '')
 }
 
 // 数字转中文大写金额
