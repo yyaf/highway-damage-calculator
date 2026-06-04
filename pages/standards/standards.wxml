@@ -10,7 +10,7 @@
     <view class="standard-info">
       <view class="standard-name">{{s.name}}</view>
       <view class="standard-code">{{s.docCode}}</view>
-      <view class="standard-count">{{s.categories.length}} 个分类</view>
+      <view class="standard-count">{{s.categories.length}} 个分类 · {{s.itemCount}} 个项目</view>
     </view>
     <view class="standard-arrow">›</view>
   </view>

@@ -5,7 +5,8 @@ Page({
     standardName: '',
     docCode: '',
     categories: [],
-    activeCategoryId: ''
+    activeCategoryId: '',
+    scrollTop: 0
   },
 
   onLoad: function (options) {
@@ -35,6 +36,9 @@ Page({
   },
 
   onCategoryTap: function (e) {
-    this.setData({ activeCategoryId: e.currentTarget.dataset.id })
+    this.setData({
+      activeCategoryId: e.currentTarget.dataset.id,
+      scrollTop: this.data.scrollTop === 0 ? 1 : 0
+    })
   }
 })

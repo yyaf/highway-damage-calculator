@@ -40,7 +40,7 @@
       </view>
     </view>
     <view class="desc-card">
-      <view class="desc-text">高速公路路产损害赔偿金额计算工具，依据《损坏公路路产赔偿标准》（粤交路〔1998〕38号）及《广东省损坏公路路产赔偿指导标准》（粤公路函〔2020〕352号）编制，适用于广东省高速公路路产损坏赔偿金额的快速计算。</view>
+      <view class="desc-text">高速公路路产损害赔偿金额计算工具，依据《损坏公路路产赔偿标准》（粤交路〔1998〕38号）、《增补公路路产赔偿项目标准》（粤交路〔1999〕263号）及《广东省损坏公路路产赔偿指导标准》（粤公路函〔2020〕352号）编制，适用于广东省高速公路路产损坏赔偿金额的快速计算。</view>
     </view>
   </view>
 
@@ -49,7 +49,7 @@
     <view class="section-title">免责声明</view>
     <view class="disclaimer-card">
       <view class="disclaimer-text">1. 本工具计算结果仅供参考，不构成任何法律或商业承诺。</view>
-      <view class="disclaimer-text">2. 数据来源于公开的两份标准文件，实际赔偿金额可能因政策调整、地方细则、评估差异等因素有所不同。</view>
+      <view class="disclaimer-text">2. 数据来源于公开的三份标准文件，实际赔偿金额可能因政策调整、地方细则、评估差异等因素有所不同。</view>
       <view class="disclaimer-text">3. 涉及具体赔偿事宜，请以相关主管部门的正式文件或专业评估意见为准。</view>
       <view class="disclaimer-text">4. 开发者不对因使用本工具产生的任何直接或间接损失承担责任。</view>
     </view>

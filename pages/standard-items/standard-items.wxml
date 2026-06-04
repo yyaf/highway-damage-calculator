@@ -16,7 +16,7 @@
 </scroll-view>
 
 <!-- 项目列表（只读） -->
-<scroll-view class="item-list" scroll-y>
+<scroll-view class="item-list" scroll-y scroll-top="{{scrollTop}}">
   <block wx:for="{{categories}}" wx:key="id" wx:for-item="cat">
     <view wx:if="{{cat.id === activeCategoryId}}">
       <view class="readonly-card" wx:for="{{cat.items}}" wx:key="name" wx:for-item="item">
