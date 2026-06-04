@@ -3,7 +3,7 @@ var history = require('../../utils/history.js')
 Page({
   data: {
     historyList: [],
-    version: 'v1.0.4',
+    version: 'v1.0.5',
     author: '岳亚峰'
   },
 
