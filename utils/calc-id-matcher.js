@@ -1,5 +1,8 @@
 var prices = require('../data/prices.js')
 
+// 模块级缓存：lookup structures 数据纯静态，全局只构建一次
+var _cachedLookup = null
+
 // ── 术语规范化 ──
 function normalizeTerm(text) {
   return text
@@ -183,6 +186,7 @@ function findCalcId(itemName, itemSpec, idMap, masterList, source) {
 
 // ── 构建主查找表（idMap + masterList）──
 function buildLookupStructures() {
+  if (_cachedLookup) return _cachedLookup
   var idMap = {}
   var masterList = []
   prices.categories.forEach(function (cat) {
@@ -197,7 +201,8 @@ function buildLookupStructures() {
       idMap[key] = item.id
     })
   })
-  return { idMap: idMap, masterList: masterList }
+  _cachedLookup = { idMap: idMap, masterList: masterList }
+  return _cachedLookup
 }
 
 module.exports = {

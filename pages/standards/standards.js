@@ -7,7 +7,13 @@ Page({
       s.categories.forEach(function (cat) {
         count += cat.items.length
       })
-      return Object.assign({}, s, { itemCount: count })
+      return {
+        id: s.id,
+        name: s.name,
+        docCode: s.docCode,
+        categoryCount: s.categories.length,
+        itemCount: count
+      }
     })
   },
 

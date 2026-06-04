@@ -53,11 +53,10 @@ Page({
   },
 
   onShow: function () {
-    // 从计算器 tab 切回时刷新 cart 状态
+    // 从计算器 tab 切回时仅刷新 _inCart 状态，避免重跑全量 findCalcId
     if (!this._idMap) return
     var cart = wx.getStorageSync(CART_KEY) || {}
-    var categories = this._attachCalcInfo(this.data.categories, cart)
-    this.setData({ categories: categories })
+    this._refreshCartStatus(this.data.categories, cart)
   },
 
   // 给分类项目附加计算器 ID 和购物车状态
@@ -68,7 +67,11 @@ Page({
 
     return categories.map(function (cat) {
       var items = cat.items.map(function (item) {
-        var calcId = idMatcher.findCalcId(item.name, item.spec || '', idMap, masterList, self._sourceId)
+        // 复用已有 _calcId（onShow 回退场景），避免重复 7 策略匹配
+        var calcId = item._calcId
+        if (!calcId) {
+          calcId = idMatcher.findCalcId(item.name, item.spec || '', idMap, masterList, self._sourceId)
+        }
         return {
           name: item.name,
           spec: item.spec,
@@ -85,6 +88,24 @@ Page({
         count: items.length
       }
     })
+  },
+
+  // 轻量刷新：仅更新 _inCart 状态，不复跑 findCalcId
+  _refreshCartStatus: function (categories, cart) {
+    var data = {}
+    for (var ci = 0; ci < categories.length; ci++) {
+      var items = categories[ci].items
+      for (var ii = 0; ii < items.length; ii++) {
+        var item = items[ii]
+        var inCart = !!(item._calcId && cart[item._calcId] > 0)
+        if (item._inCart !== inCart) {
+          data['categories[' + ci + '].items[' + ii + ']._inCart'] = inCart
+        }
+      }
+    }
+    if (Object.keys(data).length > 0) {
+      this.setData(data)
+    }
   },
 
   onCategoryTap: function (e) {
