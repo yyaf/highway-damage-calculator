@@ -17,7 +17,7 @@ function saveHistory(cart, total, report) {
     }
 
     list.unshift({
-      id: Date.now().toString(),
+      id: Date.now().toString() + '_' + Math.random().toString(36).slice(2, 8),
       time: timeStr,
       cart: JSON.parse(JSON.stringify(cart)),
       total: total,
@@ -46,12 +46,20 @@ function getHistory() {
 function deleteHistory(id) {
   var list = getHistory()
   list = list.filter(function (item) { return item.id !== id })
-  wx.setStorageSync(STORAGE_KEY, list)
+  try {
+    wx.setStorageSync(STORAGE_KEY, list)
+  } catch (e) {
+    // Storage 写入失败静默忽略
+  }
   return list
 }
 
 function clearHistory() {
-  wx.setStorageSync(STORAGE_KEY, [])
+  try {
+    wx.setStorageSync(STORAGE_KEY, [])
+  } catch (e) {
+    // Storage 写入失败静默忽略
+  }
 }
 
 function pad(n) {

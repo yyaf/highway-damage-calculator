@@ -196,6 +196,7 @@ module.exports = {
   getTotal: getTotal,
   getDetail: getDetail,
   getSelectedCount: getSelectedCount,
+  sourceLabel: sourceLabel,
   formatReport: formatReport,
   formatMoney: formatMoney,
   numberToChinese: numberToChinese

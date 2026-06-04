@@ -19,6 +19,7 @@ function getUsageCounts() {
 }
 
 function sortByUsage(items) {
+  if (!items || !Array.isArray(items)) return []
   var counts = getUsageCounts()
   return items.slice().sort(function (a, b) {
     var countA = counts[a.id] || 0
