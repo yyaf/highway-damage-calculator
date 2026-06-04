@@ -69,6 +69,7 @@
     <view class="empty-init-icon">📋</view>
     <view class="empty-init-text">搜索并选择损坏路产项目</view>
     <view class="empty-init-hint">点击上方搜索框或下拉箭头开始</view>
+    <view class="empty-init-desc">依据粤交路〔1998〕38号、粤交路〔1999〕263号、粤公路函〔2020〕352号三份标准文件编制，适用于广东省高速公路路产损坏赔偿金额的快速计算。</view>
   </view>
 
   <!-- 已选项目列表 -->

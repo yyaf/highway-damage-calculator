@@ -4,6 +4,8 @@ page {
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
+  box-sizing: border-box;
+  padding-bottom: calc(100rpx + env(safe-area-inset-bottom));
 }
 
 /* 页面标题 */
@@ -238,6 +240,15 @@ page {
   color: #bbb;
 }
 
+.empty-init-desc {
+  font-size: 22rpx;
+  color: #bbb;
+  text-align: center;
+  line-height: 1.6;
+  margin-top: 30rpx;
+  padding: 0 32rpx;
+}
+
 /* ---- 已选清单 ---- */
 .selected-section {
   padding: 16rpx 24rpx;
@@ -377,7 +388,6 @@ page {
   align-items: center;
   justify-content: space-between;
   padding: 16rpx 24rpx;
-  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
   background: #fff;
   border-top: 1rpx solid #eee;
 }

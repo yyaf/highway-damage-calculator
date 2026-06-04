@@ -1,33 +1,46 @@
+<!-- 页面标题 -->
 <view class="page-header">
   <view class="page-title">{{standardName}}</view>
   <view class="page-subtitle">{{docCode}}</view>
 </view>
 
 <!-- 分类 Tab -->
-<scroll-view class="category-tabs" scroll-x enable-flex>
-  <view
-    class="category-tab {{activeCategoryId === item.id ? 'active' : ''}}"
-    wx:for="{{categories}}"
-    wx:key="id"
-    wx:for-item="item"
-    data-id="{{item.id}}"
-    bindtap="onCategoryTap"
-  >{{item.name}}</view>
-</scroll-view>
+<view class="tabs-wrapper">
+  <scroll-view class="category-tabs" scroll-x enable-flex scroll-into-view="{{activeCategoryId}}" scroll-with-animation>
+    <view
+      class="category-tab {{activeCategoryId === item.id ? 'active' : ''}}"
+      wx:for="{{categories}}"
+      wx:key="id"
+      wx:for-item="item"
+      id="{{item.id}}"
+      data-id="{{item.id}}"
+      bindtap="onCategoryTap"
+    >{{item.name}} ({{item.count}})</view>
+  </scroll-view>
+  <view class="tab-gradient-mask"></view>
+</view>
 
 <!-- 项目列表（只读） -->
 <scroll-view class="item-list" scroll-y scroll-top="{{scrollTop}}">
   <block wx:for="{{categories}}" wx:key="id" wx:for-item="cat">
     <view wx:if="{{cat.id === activeCategoryId}}">
       <view class="readonly-card" wx:for="{{cat.items}}" wx:key="name" wx:for-item="item">
-        <view class="readonly-name">{{item.name}}</view>
-        <view class="readonly-spec" wx:if="{{item.spec}}">{{item.spec}}</view>
-        <view class="readonly-price">
-          <text wx:if="{{item.price > 0}}">¥{{item.price}} / {{item.unit}}</text>
-          <text wx:else class="price-calc">按实计算</text>
+        <view class="readonly-info">
+          <view class="readonly-name">{{item.name}}</view>
+          <view class="readonly-spec" wx:if="{{item.spec}}">{{item.spec}}</view>
+          <view class="readonly-price">
+            <text wx:if="{{item.price > 0}}">¥{{item.price}} / {{item.unit}}</text>
+            <text wx:else class="price-calc">按实计算</text>
+          </view>
+        </view>
+        <view class="add-btn {{item._inCart ? 'in-cart' : ''}}" wx:if="{{item._calcId}}" data-calc-id="{{item._calcId}}" catchtap="onAddItem">
+          <text>{{item._inCart ? '✓' : '+'}}</text>
         </view>
       </view>
     </view>
   </block>
-  <view style="height: 40rpx;"></view>
+  <view style="height: 120rpx;"></view>
 </scroll-view>
+
+<!-- 自定义底部导航栏 -->
+<custom-tab-bar selected="{{1}}" />

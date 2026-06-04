@@ -88,6 +88,38 @@ describe('history.js 历史记录', function () {
       assert.strictEqual(record.itemCount, 0)
       assert.deepStrictEqual(record.cart, {})
     })
+
+    // ── 去重：相同 report 不重复保存
+    it('相同 report 连续两次调用只保存一条记录', function () {
+      history.saveHistory({ 'a': 1 }, 100, 'same-report')
+      history.saveHistory({ 'a': 1 }, 100, 'same-report')
+      var list = history.getHistory()
+      assert.strictEqual(list.length, 1, '相同 report 不应重复保存')
+      assert.strictEqual(list[0].total, 100)
+      assert.strictEqual(list[0].report, 'same-report')
+    })
+
+    it('不同 report 仍正常保存多条记录', function () {
+      history.saveHistory({ 'a': 1 }, 100, 'report-a')
+      history.saveHistory({ 'b': 2 }, 200, 'report-b')
+      var list = history.getHistory()
+      assert.strictEqual(list.length, 2, '不同 report 应各自保存')
+      assert.strictEqual(list[0].total, 200, '最新记录排第一')
+      assert.strictEqual(list[1].total, 100, '旧记录排第二')
+    })
+
+    it('相同 report 三次调用也只保存一条', function () {
+      history.saveHistory({ 'a': 1 }, 100, 'dup')
+      history.saveHistory({ 'a': 1 }, 100, 'dup')
+      history.saveHistory({ 'a': 1 }, 100, 'dup')
+      assert.strictEqual(history.getHistory().length, 1)
+    })
+
+    it('空历史首次保存不受去重影响', function () {
+      history.saveHistory({ 'a': 1 }, 100, 'first')
+      var list = history.getHistory()
+      assert.strictEqual(list.length, 1, '空历史时首次保存应正常')
+    })
   })
 
   // ── getHistory ──

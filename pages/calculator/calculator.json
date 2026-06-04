@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "custom-tab-bar": "/custom-tab-bar/index"
+  },
   "navigationBarTitleText": "路产损坏赔偿计算"
 }

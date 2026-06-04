@@ -24,6 +24,12 @@ function setup() {
     navigateBack: function () {},
     setNavigationBarTitle: function () {}
   }
+
+  // 微信小程序框架全局 API mock
+  global.Page = function (def) { return def }
+  global.App = function (def) { return def }
+  global.Component = function (def) { return def }
+  global.getApp = function () { return {} }
 }
 
 function resetStorage() {
@@ -40,9 +46,15 @@ function setStorageSyncValue(key, value) {
   store[key] = value
 }
 
+// 便捷方法：测试中直接读写 storage（绕过 global.wx）
+function getStorageSync(key) {
+  return store[key]
+}
+
 module.exports = {
   setup: setup,
   resetStorage: resetStorage,
   setStorageError: setStorageError,
-  setStorageSyncValue: setStorageSyncValue
+  setStorageSyncValue: setStorageSyncValue,
+  getStorageSync: getStorageSync
 }

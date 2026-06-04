@@ -1,3 +1,8 @@
+page {
+  box-sizing: border-box;
+  padding-bottom: calc(100rpx + env(safe-area-inset-bottom));
+}
+
 .container {
   padding: 24rpx;
 }
@@ -34,6 +39,25 @@
 .standard-count {
   font-size: 24rpx;
   color: #999;
+}
+
+.standard-desc {
+  font-size: 22rpx;
+  color: #999;
+  margin-bottom: 4rpx;
+  line-height: 1.4;
+}
+
+.newest-badge {
+  display: inline-block;
+  font-size: 20rpx;
+  font-weight: 500;
+  color: #fff;
+  background: #27ae60;
+  padding: 2rpx 10rpx;
+  border-radius: 8rpx;
+  margin-left: 10rpx;
+  vertical-align: middle;
 }
 
 .standard-arrow {

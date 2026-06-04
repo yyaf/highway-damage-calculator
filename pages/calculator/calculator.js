@@ -3,7 +3,7 @@ var calc = require('../../utils/calculator.js')
 var usage = require('../../utils/usage-tracker.js')
 var history = require('../../utils/history.js')
 
-Page({
+var _pageDef = {
   data: {
     priceMap: {},
     cart: {},
@@ -42,6 +42,36 @@ Page({
         this.setData({ customPrices: savedPrices })
       }
     } catch (e) {}
+  },
+
+  onShow: function () {
+    // 从其他 tab 切回时刷新购物车（支持标准页直接添加项目 / 历史记录跳转）
+    try {
+      var savedCart = wx.getStorageSync('current_cart')
+      if (savedCart) {
+        this.setData({ cart: savedCart })
+        this.refreshSelected()
+      }
+    } catch (e) {}
+
+    try {
+      var savedPrices = wx.getStorageSync('custom_prices')
+      if (savedPrices) {
+        this.setData({ customPrices: savedPrices })
+        this.refreshSelected()
+      }
+    } catch (e) {}
+    // 历史记录跳转过来时显示提示
+    try {
+      if (wx.getStorageSync('show_history_toast')) {
+        wx.setStorageSync('show_history_toast', false)
+        wx.showToast({ title: '清单已复制' })
+      }
+    } catch (e) {}
+    // 自定义 tabBar 选中状态
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 0 })
+    }
   },
 
   // 聚焦搜索框 — 展开浮层
@@ -159,8 +189,7 @@ Page({
   // 直接删除该物品
   onRemoveItem: function (e) {
     var itemId = e.currentTarget.dataset.id
-    var cart = this.data.cart
-    delete cart[itemId]
+    var cart = calc.setQuantity(Object.assign({}, this.data.cart), itemId, 0)
     this.setData({ cart: cart })
     this.refreshSelected()
     this.saveCart()
@@ -245,9 +274,10 @@ Page({
       content: '确定要清空所有已选项目吗？',
       success: function (res) {
         if (res.confirm) {
-          wx.setStorageSync('current_cart', {})
-          that.setData({ cart: {} })
+          that.setData({ cart: {}, customPrices: {} })
           that.refreshSelected()
+          that.saveCart()
+          that.saveCustomPrices()
         }
       }
     })
@@ -293,7 +323,7 @@ Page({
     wx.setClipboardData({
       data: report,
       success: function () {
-        history.saveHistory(cart, total, report)
+        history.saveHistory(cart, total, report, cp)
         wx.showToast({ title: '已复制到剪贴板' })
       },
       fail: function () {
@@ -304,4 +334,6 @@ Page({
 
   // 阻止浮层遮罩下滚动穿透
   preventMove: function () {}
-})
+}
+Page(_pageDef)
+module.exports = { pageDef: _pageDef }

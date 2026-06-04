@@ -8,8 +8,11 @@
   <view class="card standard-card" wx:for="{{standards}}" wx:key="id" wx:for-item="s" data-id="{{s.id}}" bindtap="onTapStandard">
     <view class="standard-icon">📄</view>
     <view class="standard-info">
-      <view class="standard-name">{{s.name}}</view>
+      <view class="standard-name">{{s.name}}<text class="newest-badge" wx:if="{{s.id === '2020'}}">最新</text></view>
       <view class="standard-code">{{s.docCode}}</view>
+      <view class="standard-desc" wx:if="{{s.id === '1998'}}">基础赔偿标准，涵盖路面、标志牌、护栏、绿化等常规路产项目</view>
+      <view class="standard-desc" wx:elif="{{s.id === '1999'}}">1999年增补标准，补充高速公路专用路面及反光标志项目</view>
+      <view class="standard-desc" wx:elif="{{s.id === '2020'}}">现行最新指导标准，新增机电、ETC门架、充电桩等现代化设施项目</view>
       <view class="standard-count">{{s.categories.length}} 个分类 · {{s.itemCount}} 个项目</view>
     </view>
     <view class="standard-arrow">›</view>

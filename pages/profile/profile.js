@@ -28,16 +28,27 @@ Page({
     this.setData({ historyList: list })
   },
 
-  // 查看历史记录详情
+  // 查看历史记录详情 — 复制清单并跳转计算页恢复购物车
   onViewHistory: function (e) {
     var id = e.currentTarget.dataset.id
     var list = history.getHistory()
     var record = list.find(function (item) { return item.id === id })
     if (record && record.report) {
+      var that = this
       wx.setClipboardData({
         data: record.report,
         success: function () {
-          wx.showToast({ title: '清单已复制到剪贴板' })
+          // 恢复购物车
+          wx.setStorageSync('current_cart', record.cart)
+          // 恢复或清空自定义单价
+          if (record.customPrices) {
+            wx.setStorageSync('custom_prices', record.customPrices)
+          } else {
+            wx.setStorageSync('custom_prices', {})
+          }
+          // 标记由计算页显示提示（避免跳转前 Toast 一闪而过）
+          wx.setStorageSync('show_history_toast', true)
+          wx.switchTab({ url: '/pages/calculator/calculator' })
         }
       })
     }
