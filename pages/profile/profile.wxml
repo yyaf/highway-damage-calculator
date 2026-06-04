@@ -13,7 +13,8 @@
     </view>
 
     <view wx:if="{{historyList.length === 0}}" class="empty-history">
-      <text>暂无计算记录</text>
+      <text class="empty-history-text">暂无计算记录</text>
+      <text class="empty-history-hint">前往「计算」页面添加损坏项目即可生成记录</text>
     </view>
 
     <view class="history-item" wx:for="{{historyList}}" wx:key="id" wx:for-item="h">
@@ -40,7 +41,28 @@
       </view>
     </view>
     <view class="desc-card">
-      <view class="desc-text">高速公路路产损害赔偿金额计算工具，依据《损坏公路路产赔偿标准》（粤交路〔1998〕38号）、《增补公路路产赔偿项目标准》（粤交路〔1999〕263号）及《广东省损坏公路路产赔偿指导标准》（粤公路函〔2020〕352号）编制，适用于广东省高速公路路产损坏赔偿金额的快速计算。</view>
+      <view class="desc-label">功能描述</view>
+      <view class="feature-list">
+        <view class="feature-item">1. 内置粤交路〔1998〕38 号、粤交路〔1999〕263 号及粤公路函〔2020〕352 号共 170 余项赔偿标准，2020 年价格自动覆盖同名项目</view>
+        <view class="feature-item">2. 关键词搜索路产项目，按使用频次智能排序，点击即添加</view>
+        <view class="feature-item">3. 数量支持加减调节及手动输入，实时计算小计与合计</view>
+        <view class="feature-item">4. 合计金额同时显示阿拉伯数字与中文大写（财务规范格式）</view>
+        <view class="feature-item">5. 一键复制赔偿清单至剪贴板，生成规范文本报告</view>
+        <view class="feature-item">6. 自动记录计算历史，支持回顾与再次复制</view>
+        <view class="feature-item">7. 每个项目标明文件来源（38号 / 263号 / 352号），一目了然</view>
+        <view class="feature-item">8. 按实计算项目支持自定义输入单价，自动参与金额计算</view>
+        <view class="feature-item">9. 复制清单金额去除多余小数位，格式简洁清晰</view>
+        <view class="feature-item">10. 三份标准间项目自动关联，100% ID 匹配覆盖率（7 策略级联匹配）</view>
+        <view class="feature-item">11. 自定义 TabBar，三页切换流畅</view>
+        <view class="feature-item">12. 核心逻辑配备 217 个单元测试，保障计算准确性</view>
+      </view>
+      <view class="desc-divider"></view>
+      <view class="desc-label">数据说明</view>
+      <view class="desc-text">赔偿标准数据依据：</view>
+      <view class="desc-source-item"><text class="desc-source-tag source-1998">38号</text>《损坏公路路产赔偿标准》粤交路〔1998〕38 号</view>
+      <view class="desc-source-item"><text class="desc-source-tag source-1999">263号</text>《增补公路路产赔偿项目标准》粤交路〔1999〕263 号</view>
+      <view class="desc-source-item"><text class="desc-source-tag source-2020">352号</text>《广东省损坏公路路产赔偿指导标准》粤公路函〔2020〕352 号</view>
+      <view class="desc-text" style="margin-top: 12rpx;">同名项目以 2020 年价格为准，「按实计算」项目支持手动输入自定义单价。</view>
     </view>
   </view>
 

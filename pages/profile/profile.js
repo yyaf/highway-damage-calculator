@@ -3,12 +3,15 @@ var history = require('../../utils/history.js')
 Page({
   data: {
     historyList: [],
-    version: 'v1.0.3',
+    version: 'v1.0.4',
     author: '岳亚峰'
   },
 
   onShow: function () {
     this.loadHistory()
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 2 })
+    }
   },
 
   loadHistory: function () {
