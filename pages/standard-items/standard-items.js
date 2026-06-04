@@ -32,6 +32,9 @@ Page({
 
     wx.setNavigationBarTitle({ title: std.docCode })
 
+    // 存储来源 ID，供匹配时使用
+    this._sourceId = std.id
+
     // 构建运行时查找结构
     var lookup = idMatcher.buildLookupStructures()
     this._idMap = lookup.idMap
@@ -65,7 +68,7 @@ Page({
 
     return categories.map(function (cat) {
       var items = cat.items.map(function (item) {
-        var calcId = idMatcher.findCalcId(item.name, item.spec || '', idMap, masterList)
+        var calcId = idMatcher.findCalcId(item.name, item.spec || '', idMap, masterList, self._sourceId)
         return {
           name: item.name,
           spec: item.spec,

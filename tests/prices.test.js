@@ -77,7 +77,7 @@ describe('prices.js 数据完整性', function () {
 
   describe('source 值合法性', function () {
     it('所有 source 值均为 1998/1999/2020/both', function () {
-      var validSources = ['1998', '1999', '2020', 'both']
+      var validSources = ['1998', '1999', '2020']
       prices.categories.forEach(function (cat) {
         cat.items.forEach(function (item) {
           assert.ok(validSources.indexOf(item.source) !== -1,
@@ -133,7 +133,7 @@ describe('prices.js 数据完整性', function () {
 
   describe('统计概览', function () {
     it('source 分布统计', function () {
-      var counts = { '1998': 0, '1999': 0, '2020': 0, 'both': 0 }
+      var counts = { '1998': 0, '1999': 0, '2020': 0 }
       prices.categories.forEach(function (cat) {
         cat.items.forEach(function (item) {
           counts[item.source] = (counts[item.source] || 0) + 1
@@ -143,7 +143,6 @@ describe('prices.js 数据完整性', function () {
       assert.ok(counts['1998'] > 0, '应有 1998 年的项目')
       assert.ok(counts['1999'] > 0, '应有 1999 年的项目')
       assert.ok(counts['2020'] > 0, '应有 2020 年的项目')
-      assert.ok(counts['both'] > 0, '应有 both 的项目')
       console.log('source 分布:', JSON.stringify(counts))
     })
 

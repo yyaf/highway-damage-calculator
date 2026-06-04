@@ -301,8 +301,8 @@ describe('calculator.js 计算逻辑', function () {
     it("2020 → '352号'", function () {
       assert.strictEqual(calc.sourceLabel('2020'), '352号')
     })
-    it("both → '38号/352号'", function () {
-      assert.strictEqual(calc.sourceLabel('both'), '38号/352号')
+    it("both（已废弃）返回 ''", function () {
+      assert.strictEqual(calc.sourceLabel('both'), '')
     })
     it("未知 source 返回 ''", function () {
       assert.strictEqual(calc.sourceLabel('unknown'), '')

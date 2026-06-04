@@ -44,6 +44,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 关键约定
 
 - "按实计算"项目 `price: 0`，前端显示提示文字不参与金额计算
-- 同名项目在38号和352号标准中出现时以 2020 年价格为准（`source: 'both'`）
+- 同名项目在不同标准中出现时分别标记为独立条目（`source: '1998'` / `source: '2020'`），不合并
 - 263号（1999年）为增补标准，单独标记 `source: '1999'`
 - 历史记录最多保留 50 条

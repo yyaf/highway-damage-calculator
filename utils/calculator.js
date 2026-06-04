@@ -94,7 +94,6 @@ function sourceLabel(source) {
   if (source === '1998') return '38号'
   if (source === '1999') return '263号'
   if (source === '2020') return '352号'
-  if (source === 'both') return '38号/352号'
   return ''
 }
 

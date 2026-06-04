@@ -44,21 +44,21 @@ describe('calc-id-matcher.js ID 匹配逻辑', function () {
     })
 
     it('已知精确 key 可查找到正确 id', function () {
-      // 三角形反光标志牌 边长130cm 高强级
-      var id = idMap['三角形反光标志牌|边长130cm 高强级']
+      // key 格式为 name|spec|source
+      var id = idMap['三角形反光标志牌|边长130cm 高强级|1998']
       assert.strictEqual(id, 'tri-130-high')
     })
 
-    it('spec 为空的项目 key 格式为 "name|"', function () {
-      // 部分项目 spec 为空
+    it('spec 为空的项目 key 格式为 "name||source"', function () {
+      // key 格式为 name|spec|source，空 spec 时中间为 ||
       var found = false
       for (var key in idMap) {
-        if (idMap.hasOwnProperty(key) && key.endsWith('|')) {
+        if (idMap.hasOwnProperty(key) && key.indexOf('||') !== -1) {
           found = true
           break
         }
       }
-      assert.ok(found, '应存在 spec 为空的条目')
+      assert.ok(found, '应存在 spec 为空的条目（key 包含 ||）')
     })
   })
 
@@ -184,7 +184,7 @@ describe('calc-id-matcher.js ID 匹配逻辑', function () {
     it('spec 为空时的精确匹配', function () {
       // 找一个 spec 为空的项目
       var id = matcher.findCalcId('石砌边沟、截水沟', '', idMap, masterList)
-      assert.strictEqual(id, 'stone-ditch')
+      assert.strictEqual(id, 'stone-ditch-1998')
     })
 
     it('name 匹配但 spec 不匹配时精确匹配失败（走后续策略）', function () {
@@ -220,7 +220,7 @@ describe('calc-id-matcher.js ID 匹配逻辑', function () {
     it('砼 → 混凝土 术语转换后匹配', function () {
       // 标准数据使用 砼 术语
       var id = matcher.findCalcId('砼预制件铺砌边沟、截水沟', '', idMap, masterList)
-      assert.strictEqual(id, 'precast-ditch')
+      assert.strictEqual(id, 'precast-ditch-1998')
     })
 
     it('钢筋砼 → 钢筋混凝土 转换后匹配', function () {
@@ -267,27 +267,26 @@ describe('calc-id-matcher.js ID 匹配逻辑', function () {
   })
 
   describe('findCalcId — 策略5c: 名称匹配+规格兼容子串 (Bug 2 修复)', function () {
-    it('2020 标准 钢管反光示警桩 spec=89mm → warn-post-89', function () {
-      var id = matcher.findCalcId('钢管反光示警桩', '89mm', idMap, masterList)
-      assert.strictEqual(id, 'warn-post-89',
-        '89mm 应匹配 warn-post-89（89mm 是 Ø89mm 3英寸 的子串），实际: ' + id)
+    it('2020 标准 钢管反光示警桩 spec=89mm → warn-post-89-2020', function () {
+      var id = matcher.findCalcId('钢管反光示警桩', '89mm', idMap, masterList, '2020')
+      assert.strictEqual(id, 'warn-post-89-2020',
+        '89mm 应匹配 warn-post-89-2020（89mm 是 Ø89mm 3英寸 的子串），实际: ' + id)
     })
 
-    it('2020 标准 钢管反光示警桩 spec=114mm → warn-post-114', function () {
-      var id = matcher.findCalcId('钢管反光示警桩', '114mm', idMap, masterList)
-      assert.strictEqual(id, 'warn-post-114',
-        '114mm 应匹配 warn-post-114（114mm 是 Ø114mm 4英寸 的子串），实际: ' + id)
+    it('2020 标准 钢管反光示警桩 spec=114mm → warn-post-114-2020', function () {
+      var id = matcher.findCalcId('钢管反光示警桩', '114mm', idMap, masterList, '2020')
+      assert.strictEqual(id, 'warn-post-114-2020',
+        '114mm 应匹配 warn-post-114-2020（114mm 是 Ø114mm 4英寸 的子串），实际: ' + id)
     })
 
-    it('1998 标准 钢管反光示警桩 spec=Ø89mm 3英寸 → warn-post-89', function () {
-      // 这里精确匹配应该已经能匹配上了
-      var id = matcher.findCalcId('钢管反光示警桩', 'Ø89mm 3英寸', idMap, masterList)
-      assert.strictEqual(id, 'warn-post-89')
+    it('1998 标准 钢管反光示警桩 spec=Ø89mm 3英寸 → warn-post-89-1998', function () {
+      var id = matcher.findCalcId('钢管反光示警桩', 'Ø89mm 3英寸', idMap, masterList, '1998')
+      assert.strictEqual(id, 'warn-post-89-1998')
     })
 
-    it('1998 标准 钢管反光示警桩 spec=Ø114mm 4英寸 → warn-post-114', function () {
-      var id = matcher.findCalcId('钢管反光示警桩', 'Ø114mm 4英寸', idMap, masterList)
-      assert.strictEqual(id, 'warn-post-114')
+    it('1998 标准 钢管反光示警桩 spec=Ø114mm 4英寸 → warn-post-114-1998', function () {
+      var id = matcher.findCalcId('钢管反光示警桩', 'Ø114mm 4英寸', idMap, masterList, '1998')
+      assert.strictEqual(id, 'warn-post-114-1998')
     })
 
     it('锥形交通路标 spec 高75cm反光套 匹配', function () {

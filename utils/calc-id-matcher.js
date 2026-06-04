@@ -47,12 +47,21 @@ function extractBigrams(text) {
 // ── 多策略查找计算器 ID ──
 // masterList: [{ id, name, spec }]
 // idMap: { 'name|spec' → id }  精确查找表
-function findCalcId(itemName, itemSpec, idMap, masterList) {
+function findCalcId(itemName, itemSpec, idMap, masterList, source) {
   var key, paren, normName, normSpec, revName, ds, i, item
 
   // 1. 精确匹配
-  key = itemName + '|' + itemSpec
-  if (idMap[key]) return idMap[key]
+  // 1a. 如果提供了 source，优先 source-aware 精确匹配
+  if (source) {
+    key = itemName + '|' + itemSpec + '|' + source
+    if (idMap[key]) return idMap[key]
+  }
+  // 1b. 尝试所有三个来源（1998, 1999, 2020）
+  var sources = ['1998', '1999', '2020']
+  for (var si = 0; si < sources.length; si++) {
+    key = itemName + '|' + itemSpec + '|' + sources[si]
+    if (idMap[key]) return idMap[key]
+  }
 
   // 2. 括号规格提取 — 标准数据中名称含 (xxx) 或 （xxx）
   paren = extractParenSpec(itemName)
@@ -115,27 +124,40 @@ function findCalcId(itemName, itemSpec, idMap, masterList) {
   // 处理标准数据规格与主数据规格存在包含关系的情况
   // 例：标准 spec=89mm 包含于主 spec=Ø89mm 3英寸
   if (itemSpec) {
+    var specCandidates = []
     for (i = 0; i < masterList.length; i++) {
       item = masterList[i]
       if (item.name === itemName && item.spec) {
         if (item.spec.indexOf(itemSpec) !== -1 || itemSpec.indexOf(item.spec) !== -1) {
-          return item.id
+          if (source && item.source === source) return item.id
+          specCandidates.push(item.id)
         }
       }
     }
+    if (specCandidates.length > 0) return specCandidates[0]
   }
 
-  // 6. 仅名称匹配（忽略规格差异）
+  // 6. 仅名称匹配（忽略规格差异，source 优先）
+  var nameOnlyMatchId = ''
   for (i = 0; i < masterList.length; i++) {
     item = masterList[i]
-    if (item.name === itemName) return item.id
+    if (item.name === itemName) {
+      if (source && item.source === source) return item.id
+      if (!nameOnlyMatchId) nameOnlyMatchId = item.id
+    }
   }
-  // 6b. 规范化名称匹配
+  if (nameOnlyMatchId) return nameOnlyMatchId
+  // 6b. 规范化名称匹配（source 优先）
   if (normName !== itemName) {
+    nameOnlyMatchId = ''
     for (i = 0; i < masterList.length; i++) {
       item = masterList[i]
-      if (item.name === normName) return item.id
+      if (item.name === normName) {
+        if (source && item.source === source) return item.id
+        if (!nameOnlyMatchId) nameOnlyMatchId = item.id
+      }
     }
+    if (nameOnlyMatchId) return nameOnlyMatchId
   }
 
   // 7. Bigram 模糊匹配（最后兜底，阈值 ≥2 个公共 bigram）
@@ -168,9 +190,10 @@ function buildLookupStructures() {
       masterList.push({
         id: item.id,
         name: item.name,
-        spec: item.spec || ''
+        spec: item.spec || '',
+        source: item.source || ''
       })
-      var key = item.name + '|' + (item.spec || '')
+      var key = item.name + '|' + (item.spec || '') + '|' + (item.source || '')
       idMap[key] = item.id
     })
   })
