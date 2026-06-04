@@ -24,6 +24,8 @@
 .clear-btn {
   font-size: 24rpx;
   color: var(--danger);
+  padding: 12rpx 16rpx;
+  display: inline-block;
 }
 
 .empty-history {
@@ -58,6 +60,7 @@
 
 .history-info {
   flex: 1;
+  padding: 12rpx 0;
 }
 
 .history-time {
@@ -81,7 +84,7 @@
 .history-delete {
   font-size: 28rpx;
   color: #ccc;
-  padding: 8rpx;
+  padding: 14rpx;
 }
 
 /* 信息卡片 */

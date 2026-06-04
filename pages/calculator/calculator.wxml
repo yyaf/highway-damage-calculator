@@ -6,7 +6,7 @@
 
 <!-- 搜索栏 -->
 <view class="search-bar">
-  <view class="search-input-box" bindtap="onSearchFocus">
+  <view class="search-input-box" hover-class="search-input-hover" bindtap="onSearchFocus">
     <text class="search-icon">🔍</text>
     <input
       class="search-input"
@@ -17,7 +17,7 @@
       confirm-type="search"
       focus="{{inputFocus}}"
     />
-    <view class="search-arrow {{showDropdown ? 'arrow-up' : ''}}" catchtap="onToggleDropdown">
+    <view class="search-arrow {{showDropdown ? 'arrow-up' : ''}}" hover-class="search-arrow-hover" catchtap="onToggleDropdown">
       <text>▼</text>
     </view>
   </view>
@@ -36,6 +36,7 @@
   <scroll-view class="dropdown-list" scroll-y wx:if="{{dropdownItems.length > 0}}">
     <view
       class="dropdown-item"
+      hover-class="dropdown-item-hover"
       wx:for="{{dropdownItems}}"
       wx:key="id"
       wx:for-item="item"
@@ -90,11 +91,11 @@
           ¥{{d.price}} / {{d.unit}}
         </view>
         <!-- 自定义单价：点击可修改 -->
-        <view wx:elif="{{customPrices[d.id] && editingPriceId !== d.id}}" class="selected-unit-price calc-price" data-id="{{d.id}}" catchtap="onStartEditPrice">
+        <view wx:elif="{{customPrices[d.id] && editingPriceId !== d.id}}" class="selected-unit-price calc-price" hover-class="calc-price-hover" data-id="{{d.id}}" catchtap="onStartEditPrice">
           ¥{{customPrices[d.id]}} / {{d.unit}} <text class="custom-price-tag">自定义</text>
         </view>
         <!-- 按实计算：可点击输入自定义单价 -->
-        <view wx:elif="{{editingPriceId !== d.id}}" class="selected-unit-price calc-price" data-id="{{d.id}}" catchtap="onStartEditPrice">
+        <view wx:elif="{{editingPriceId !== d.id}}" class="selected-unit-price calc-price" hover-class="calc-price-hover" data-id="{{d.id}}" catchtap="onStartEditPrice">
           按实计算 / {{d.unit}} <text class="edit-hint">（点击输入单价）</text>
         </view>
         <!-- 单价输入框 -->
@@ -115,7 +116,7 @@
         </view>
       </view>
       <view class="selected-qty">
-        <view class="qty-btn small" data-id="{{d.id}}" catchtap="onDecrease">−</view>
+        <view class="qty-btn small" hover-class="qty-btn-hover" data-id="{{d.id}}" catchtap="onDecrease">−</view>
         <view class="qty-num-box" wx:if="{{editingId !== d.id}}" data-id="{{d.id}}" catchtap="onStartEditQty">
           <text class="qty-num-text">{{d.quantity}}</text>
         </view>
@@ -133,10 +134,10 @@
           selection-start="0"
           selection-end="999"
         />
-        <view class="qty-btn small" data-id="{{d.id}}" catchtap="onIncrease">+</view>
+        <view class="qty-btn small" hover-class="qty-btn-hover" data-id="{{d.id}}" catchtap="onIncrease">+</view>
       </view>
       <view class="selected-subtotal">¥{{d.subtotal}}</view>
-      <view class="selected-delete" data-id="{{d.id}}" catchtap="onRemoveItem">✕</view>
+      <view class="selected-delete" hover-class="selected-delete-hover" data-id="{{d.id}}" catchtap="onRemoveItem">✕</view>
     </view>
 
     <view style="height: 20rpx;"></view>

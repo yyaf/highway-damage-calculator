@@ -33,7 +33,7 @@
             <text wx:else class="price-calc">按实计算</text>
           </view>
         </view>
-        <view class="add-btn {{item._inCart ? 'in-cart' : ''}}" wx:if="{{item._calcId}}" data-calc-id="{{item._calcId}}" catchtap="onAddItem">
+        <view class="add-btn {{item._inCart ? 'in-cart' : ''}}" hover-class="add-btn-hover" wx:if="{{item._calcId}}" data-calc-id="{{item._calcId}}" catchtap="onAddItem">
           <text>{{item._inCart ? '✓' : '+'}}</text>
         </view>
       </view>

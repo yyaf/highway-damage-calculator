@@ -19,7 +19,7 @@ page {
 /* 下划线指示器风格 Tab */
 .category-tab {
   display: inline-block;
-  padding: 18rpx 20rpx;
+  padding: 22rpx 20rpx;
   border-bottom: 3rpx solid transparent;
   font-size: 26rpx;
   color: #888;
@@ -91,8 +91,8 @@ page {
 
 /* 添加到计算器按钮 */
 .add-btn {
-  width: 48rpx;
-  height: 48rpx;
+  width: 56rpx;
+  height: 56rpx;
   border-radius: 50%;
   background: var(--primary);
   color: #fff;
@@ -105,7 +105,7 @@ page {
   margin-left: 16rpx;
 }
 
-.add-btn:active {
+.add-btn-hover {
   opacity: 0.8;
 }
 
