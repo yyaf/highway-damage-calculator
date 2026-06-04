@@ -13,13 +13,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ├── data/prices.js                 # 赔偿标准数据（~160项，合并两份标准）
 ├── utils/
 │   ├── calculator.js              # 购物车计算 + 文本报告生成
+│   ├── calc-id-matcher.js         # ID 匹配工具（7策略级联，100%覆盖）
 │   ├── usage-tracker.js           # 使用频次追踪（wx.Storage）
 │   └── history.js                 # 历史记录读写（wx.Storage）
+├── tests/                         # 单元测试（217用例，node:test）
+│   ├── wx-mock.js                 # 微信 API Mock
+│   ├── calculator.test.js         # 工具函数测试
+│   ├── calc-id-matcher.test.js    # ID 匹配算法测试（56用例）
+│   └── calculator-page.test.js    # 页面状态管理测试（29用例）
+├── custom-tab-bar/                # 自定义 TabBar 组件
 ├── pages/
 │   ├── calculator/                # Tab1 计算：搜索展开 + 物品选择 + 清单 + 中文大写金额
 │   ├── standards/                 # Tab2 标准：三份标准文件卡片列表
 │   ├── standard-items/            # 标准详情：只读浏览某标准的分类和项目
-│   └── profile/                   # Tab3 我的：历史记录 + 版本 + 作者
+│   └── profile/                   # Tab3 我的：历史记录 + 版本 + 作者 + 免责声明
 ```
 
 ## 开发命令
