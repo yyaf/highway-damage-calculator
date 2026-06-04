@@ -20,7 +20,7 @@ Page({
     editingPriceId: '',  // 正在编辑单价的 itemId
     editingPriceValue: 0,// 编辑中的实时单价
     customPrices: {},    // { itemId: customPrice } 自定义单价
-    sourceLabel: { '1998': '38号', '2020': '352号', 'both': '38号/352号' },
+    sourceLabel: { '1998': '38号', '1999': '263号', '2020': '352号', 'both': '38号/352号' },
     inputFocus: false
   },
 

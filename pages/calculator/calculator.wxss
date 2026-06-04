@@ -452,6 +452,11 @@ page {
   color: #2e7d32;
 }
 
+.source-1999 {
+  background: #fff3e0;
+  color: #e65100;
+}
+
 .source-2020 {
   background: #e3f2fd;
   color: #1565c0;

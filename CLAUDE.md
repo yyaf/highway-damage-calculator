@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-高速公路路产损害赔偿金额计算器 — 微信小程序。基于粤交路〔1998〕38号和粤公路函〔2020〕352号两份官方标准，纯前端实现。
+高速公路路产损害赔偿金额计算器 — 微信小程序。基于粤交路〔1998〕38号、粤交路〔1999〕263号和粤公路函〔2020〕352号三份官方标准，纯前端实现。
 
 ## 项目结构
 
@@ -17,7 +17,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │   └── history.js                 # 历史记录读写（wx.Storage）
 ├── pages/
 │   ├── calculator/                # Tab1 计算：搜索展开 + 物品选择 + 清单 + 中文大写金额
-│   ├── standards/                 # Tab2 标准：两份标准文件卡片列表
+│   ├── standards/                 # Tab2 标准：三份标准文件卡片列表
 │   ├── standard-items/            # 标准详情：只读浏览某标准的分类和项目
 │   └── profile/                   # Tab3 我的：历史记录 + 版本 + 作者
 ```
@@ -37,5 +37,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 关键约定
 
 - "按实计算"项目 `price: 0`，前端显示提示文字不参与金额计算
-- 同名项目在两份标准中出现时以 2020 年价格为准（`source: 'both'`）
+- 同名项目在38号和352号标准中出现时以 2020 年价格为准（`source: 'both'`）
+- 263号（1999年）为增补标准，单独标记 `source: '1999'`
 - 历史记录最多保留 50 条

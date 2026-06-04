@@ -1,6 +1,6 @@
 // ============================================================
 // 高速公路路产赔偿标准数据集
-// 来源：粤交路〔1998〕38号 + 粤公路函〔2020〕352号（增补）
+// 来源：粤交路〔1998〕38号 + 粤交路〔1999〕263号（增补） + 粤公路函〔2020〕352号（增补）
 // ============================================================
 
 // ---- 合并后的分类列表（供计算器主页使用） ----
@@ -30,7 +30,8 @@ var categories = [
       { id: 'rect-nonreflect-al', name: '正(长)方形不反光标志牌', spec: '铝板', unit: '平方米', price: 550, source: '1998' },
       { id: 'rect-nonreflect-fe', name: '正(长)方形不反光标志牌', spec: '铁板', unit: '平方米', price: 300, source: '1998' },
       { id: 'alum-sign-2020', name: '铝合金标志牌', spec: '', unit: '平方米', price: 1044, source: '2020' },
-      { id: 'alum-plastic-sign', name: '铝塑板标志牌', spec: '', unit: '平方米', price: 844, source: '2020' }
+      { id: 'alum-plastic-sign', name: '铝塑板标志牌', spec: '', unit: '平方米', price: 844, source: '2020' },
+      { id: 'diamond-ref-sign', name: '钻石级反光标志牌', spec: '', unit: '平方米', price: 2600, source: '1999' }
     ]
   },
   {
@@ -65,6 +66,8 @@ var categories = [
       { id: 'cone-75-ref', name: '锥形交通路标', spec: '高75cm 反光套', unit: '个', price: 90, source: 'both' },
       { id: 'cone-50-ref', name: '锥形交通路标', spec: '高50cm 反光套', unit: '个', price: 80, source: 'both' },
       { id: 'cone-90-ref', name: '锥形交通路标', spec: '高90cm 反光套', unit: '个', price: 100, source: '2020' },
+      { id: 'cone-100-ref-a', name: '锥形交通路标', spec: '高100cm 反光膜 A款', unit: '个', price: 250, source: '1999' },
+      { id: 'cone-100-ref-b', name: '锥形交通路标', spec: '高100cm 反光膜 B款', unit: '个', price: 200, source: '1999' },
       { id: 'cone-75-nonref', name: '锥形交通路标', spec: '高75cm 不反光', unit: '个', price: 120, source: '1998' },
       { id: 'cone-50-nonref', name: '锥形交通路标', spec: '高50cm 不反光', unit: '个', price: 85, source: '1998' },
       { id: 'delineator-concrete', name: '轮廓标', spec: '钢筋砼柱式', unit: '根', price: 192, source: 'both' },
@@ -103,7 +106,10 @@ var categories = [
       { id: 'ac-shoulder', name: '沥青路肩', spec: '', unit: '平方米', price: 275, source: 'both' },
       { id: 'cc-shoulder', name: '水泥路肩', spec: '', unit: '平方米', price: 314, source: 'both' },
       { id: 'curb', name: '路缘石', spec: '水泥砼预制件', unit: '米', price: 75, source: '1998' },
-      { id: 'curb-2020', name: '路缘石', spec: '常规尺寸0.15×0.15×1m', unit: '米', price: 70, source: '2020' }
+      { id: 'curb-2020', name: '路缘石', spec: '常规尺寸0.15×0.15×1m', unit: '米', price: 70, source: '2020' },
+      { id: 'mod-ac-pavement-99', name: '改性沥青砼路面', spec: '', unit: '平方米', price: 380, source: '1999' },
+      { id: 'steel-deck-ac', name: '钢桥面行车道改性沥青砼铺装', spec: '', unit: '平方米', price: 2180, source: '1999' },
+      { id: 'cc-pavement-highway', name: '水泥混凝土路面', spec: '高速公路专用', unit: '平方米', price: 440, source: '1999' }
     ]
   },
   {
@@ -339,6 +345,8 @@ var categories = [
       { id: 'pollute-oil-cc', name: '油类、酸、碱类化学物质污染水泥路面', spec: '', unit: '平方米', price: 318, source: 'both' },
       { id: 'pollute-oil-ac', name: '油类、酸、碱类化学物质污染沥青路面', spec: '', unit: '平方米', price: 246, source: 'both' },
       { id: 'pollute-oil-mod', name: '油类、酸、碱类化学物质污染改性沥青路面', spec: '', unit: '平方米', price: 275, source: '2020' },
+      { id: 'pollute-mod-ac-99', name: '油类品、化学物品污染改性沥青砼路面', spec: '', unit: '平方米', price: 350, source: '1999' },
+      { id: 'pollute-cc-highway', name: '油类品、化学物品污染水泥砼路面', spec: '高速公路专用', unit: '平方米', price: 80, source: '1999' },
       { id: 'pollute-other', name: '其他物质污染路面', spec: '', unit: '平方米', price: 72, source: 'both' },
       { id: 'other-facility', name: '桥梁、涵洞、隧道、渡口、码头及其他设施', spec: '按实计算', unit: '', price: 0, source: '1998' },
       { id: 'maintenance-house', name: '道班房', spec: '按实计算', unit: '', price: 0, source: '1998' },
@@ -499,6 +507,33 @@ var standards = [
           { name: '道班房', spec: '按实计算', unit: '', price: 0 },
           { name: '收费站设施', spec: '按实计算', unit: '', price: 0 },
           { name: '电杆及照明设备', spec: '按实计算', unit: '', price: 0 }
+        ]
+      }
+    ]
+  },
+  {
+    id: '1999',
+    name: '增补公路路产赔偿项目标准',
+    docCode: '粤交路〔1999〕263号',
+    categories: [
+      {
+        id: 's1999-sign',
+        name: '标志牌与锥形路标',
+        items: [
+          { name: '钻石级反光标志牌', spec: '', unit: '平方米', price: 2600 },
+          { name: '锥形交通路标', spec: '高100cm 反光膜 A款', unit: '个', price: 250 },
+          { name: '锥形交通路标', spec: '高100cm 反光膜 B款', unit: '个', price: 200 }
+        ]
+      },
+      {
+        id: 's1999-pavement',
+        name: '路面工程（高速公路专用）',
+        items: [
+          { name: '改性沥青砼路面', spec: '', unit: '平方米', price: 380 },
+          { name: '钢桥面行车道改性沥青砼铺装', spec: '', unit: '平方米', price: 2180 },
+          { name: '油类品、化学物品污染改性沥青砼路面', spec: '', unit: '平方米', price: 350 },
+          { name: '水泥混凝土路面', spec: '高速公路专用', unit: '平方米', price: 440 },
+          { name: '油类品、化学物品污染水泥砼路面', spec: '高速公路专用', unit: '平方米', price: 80 }
         ]
       }
     ]
