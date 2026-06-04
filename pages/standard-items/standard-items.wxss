@@ -3,6 +3,8 @@ page {
 }
 
 .category-tabs {
+  width: 100%;
+  box-sizing: border-box;
   white-space: nowrap;
   background: #fff;
   padding: 12rpx 20rpx;
